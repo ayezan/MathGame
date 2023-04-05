@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Math Game</title>
+</head>           
+
+<body style="background-image: url('./img2.jpg');  background-repeat: no-repeat;
+background-size: cover;">
+
+
+    <h1 style="text-align: center; font-weight: bold; font-size:60px; margin-top: 200px; color: red;">Math Game</h1>
+    <div style="text-align: center; font-size:30px; " id="question"></div><br>
+    <form style="text-align: center;">
+        <label  for="answer" style="font-size:20px;">Enter your answer in below:</label><br> <br>
+        <input  type="number" id="answer" name="answer"><br>
+        <br> <button type="submit" style="background-color: red; color: white; padding: 10px;">Submit</button>
+    </form>
+    <div style="text-align: center; font-size: 20px;" id="result"></div>
+    <div style="text-align: center;" id="score"></div>
+    
+
+
+
+    <script>
+        // Generate two random numbers between 1 and 10
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+
+        // Generate a random operator
+        let operator;
+        switch (Math.floor(Math.random() * 5)) {
+            case 0:
+                operator = "+";
+                break;
+            case 1:
+                operator = "-";
+                break;
+            case 2:
+                operator = "*";
+                break;
+            case 3:
+                operator = "/";
+            case 4:
+                operator = "%";
+                break;
+        }
+
+        // Construct the math question
+        const question = `${num1} ${operator} ${num2} = ?`;
+        document.getElementById("question").textContent = question;
+
+        // Add event listener to form submit
+        const form = document.querySelector("form");
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const answerInput = document.getElementById("answer");
+            const answer = Number(answerInput.value);
+
+            // Calculate the correct answer using the chosen operator
+            let correctAnswer;
+            switch (operator) {
+                case "+":
+                    correctAnswer = num1 + num2;
+                    break;
+                case "-":
+                    correctAnswer = num1 - num2;
+                    break;
+                case "*":
+                    correctAnswer = num1 * num2;
+                    break;
+                case "/":
+                    correctAnswer = num1 / num2;
+                    break;
+            }
+
+            // Check if the user's answer is correct
+            if (answer === correctAnswer) {
+                //  document.getElementById("result").textContent = "Congratulations, you win! ";
+                document.getElementById("result").innerHTML = "<br>Congratulations, you win!<br><br>You can get 50% discounts for all products.";
+
+
+
+            } else if (answer > correctAnswer) {
+                document.getElementById("result").innerHTML = "<br>Your answer is too high. Please try again.";
+            } else if (answer < correctAnswer) {
+                document.getElementById("result").innerHTML = "<br>Your answer is too low. Please try again.";
+            }
+
+            // Calculate the user's score
+            let score = 0;
+            if (answer === correctAnswer) {
+                score += 10;
+            }
+            if (answer !== correctAnswer && answer < correctAnswer) {
+                score += 5;
+            }
+            if (answer !== correctAnswer && answer > correctAnswer) {
+                score += 2;
+            }
+            // Use conditional (ternary) operator to determine the message to display
+            const message = score > 0 ? `Your score is ${score}` : `Your score is ${score}. Try again next time.`;
+            alert(message);
+
+            // Reset the form
+            answerInput.value = "";
+        });
+    </script>
+
+
+
+</body>
+
+</html>
